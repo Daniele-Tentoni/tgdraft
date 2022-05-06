@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "cube-reunion-bot"
+version = "0.1.0"
+description = "Telegram bot to organize drafts."
+authors = ["Daniele Tentoni <daniele.tentoni.1996@gmail.com>"]
+license = "GPLv3"
+
+[tool.poetry.dependencies]
+pymongo = {version = "^4.1.1", extras = ["srv"]}
+python = "^3.9"
+python-telegram-bot = "^13.11"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.18.1"
+pytest = "^7.1.2"
+
+[tool.black]
+line-length = 79
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
