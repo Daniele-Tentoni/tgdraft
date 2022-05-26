@@ -1,21 +1,35 @@
 [tool.poetry]
-name = "cube-reunion-bot"
+name = "tgdraft"
 version = "0.1.0"
 description = "Telegram bot to organize drafts."
 authors = ["Daniele Tentoni <daniele.tentoni.1996@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
+dnspython = "^2.2.1"
 pymongo = {version = "^4.1.1", extras = ["srv"]}
 python = "^3.9"
-python-telegram-bot = "^13.11"
+python-dotenv = "^0.20.0"
+python-telegram-bot = "^20.0a0"
 
 [tool.poetry.dev-dependencies]
+black = "^22.3.0"
 pre-commit = "^2.18.1"
 pytest = "^7.1.2"
+python-semantic-release = "^7.28.1"
 
 [tool.black]
 line-length = 79
+
+[tool.semantic_release]
+branch = 'main'
+build_command = 'poetry build'
+major_on_zero = false
+upload_to_repository = false
+version_variable = [
+  "tgdraft/__init__.py:__version__",
+  "pyproject.toml:version"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
