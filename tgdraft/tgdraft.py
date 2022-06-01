@@ -26,12 +26,13 @@ def setup_logging():
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
+    new_logger = logging.getLogger(__name__)
+    new_logger.setLevel(logging.DEBUG)
+    return new_logger
 
 
 # Setup logs
-setup_logging()
+logger = setup_logging()
 
 
 def mongo_connection() -> MongoClient:
