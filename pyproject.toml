@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgdraft"
-version = "0.1.0"
+version = "0.1.1"
 description = "Telegram bot to organize drafts."
 authors = ["Daniele Tentoni <daniele.tentoni.1996@gmail.com>"]
 license = "GPLv3"
