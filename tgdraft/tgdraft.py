@@ -13,17 +13,25 @@ from telegram.ext import (
 import os
 from dotenv import load_dotenv
 
+# Setup env
 load_dotenv()
+
 from pymongo.mongo_client import MongoClient
 from pymongo.database import Database
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+def setup_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
+
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+
+# Setup logs
+setup_logging()
 
 
 def mongo_connection() -> MongoClient:
@@ -47,17 +55,24 @@ def mongo_db(client: MongoClient) -> Database:
 
 
 TOKEN = os.environ.get("BOT_TOKEN")
-
+WEBAPP_HOST = "0.0.0.0"
 PORT = int(os.environ.get("PORT", "8443"))
+WEBHOOK_URL = f"https://tgdraft.herokuapp.com/webhook/{TOKEN}"
 
 
 def cli() -> None:
     """Execute the bot."""
     client = mongo_connection()
     db = mongo_db(client)
-    application = Application.builder().token(TOKEN).build()
     bot = Bot(logger, mongo=db)
-    updater = application.updater
+
+    # Setup bot
+    try:
+        application = Application.builder().token(TOKEN).build()
+    except Exception as ex:
+        logging.error(f"Can't build application due to {ex}")
+        sys.exit(os.EX_CONFIG)
+
     application.add_handler(
         CommandHandler("start", bot.start_deep, filters.Regex("cube"))
     )
@@ -70,11 +85,11 @@ def cli() -> None:
     )
     application.add_handler(CallbackQueryHandler(bot.callback_sign_me))
     if os.environ.get("ENV", "localhost") == "HEROKU":
-        updater.start_webhook(
-            listen="0.0.0.0",
+        application.run_webhook(
+            listen=WEBAPP_HOST,
             port=PORT,
             url_path=TOKEN,
-            webhook_url="https://tgdraft.herokuapp.com/" + TOKEN,
+            webhook_url=WEBHOOK_URL,
         )
     else:
         application.run_polling()
