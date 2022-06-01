@@ -1,1 +1,1 @@
-web: poetry run python3 tgdraft/tgdraft.py
+web: poetry run python3 -m tgdraftß

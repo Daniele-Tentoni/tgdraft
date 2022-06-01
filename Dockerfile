@@ -14,4 +14,4 @@ RUN ${HOME}/.poetry/bin/poetry install --no-interaction --no-ansi --no-dev
 
 COPY tgdraft /code/tgdraft
 
-CMD ["python", "tgdraft/tgdraft.py"]
+CMD ["python", "-m", "tgdraft"]
